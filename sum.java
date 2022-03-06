@@ -61,6 +61,15 @@ class sum{
             System.out.println("Fail");
             fail++;
         }
+        sum = findSum("//#\n-6#-8");
+        if(sum==-1){
+            System.out.println("Pass");
+            pass++;
+        }
+        else{
+            System.out.println("Fail");
+            fail++;
+        }
         System.out.println(pass + " test case passed and "+ fail + " failed" );
 
 	 }
@@ -90,6 +99,46 @@ class sum{
         
     }
 
+    public static boolean containsNegative(String str, int start_index, char delimiter){
+        boolean isNegative = false;
+        int n = str.length();
+        String number = "0";
+        String negative_numbers = "";
+        for(int i = start_index; i<n; i++){
+            char ch = str.charAt(i);
+            if(Character.isDigit(ch)){
+                if(i>start_index && str.charAt(i-1)=='-'){
+                    isNegative = true;
+                }
+                number += ch;
+            }
+            
+            else if((ch == delimiter || (ch == '\n' ))&& isNegative ){
+                negative_numbers += '-';
+                negative_numbers += number;
+                negative_numbers += ',';
+                isNegative = false;
+                number = "0";
+                }
+             
+        }
+        if(isNegative){
+            negative_numbers += '-';
+            negative_numbers += number;
+            negative_numbers += ',';
+            isNegative = false;
+            number = "0";
+            
+        }
+        if(negative_numbers.length()>0){
+            System.out.println("Contains these "+negative_numbers+" negative numbers");
+            return(true);
+        }
+        return(false);
+        
+        
+    }
+
 	 public static int findSum(String str){
         int start_index = getStartIndex(str);
         char delimiter = getDelimiter(str);
@@ -101,6 +150,9 @@ class sum{
         if(start_index==(n)){
             System.out.println("No numbers found");
             return(0);
+        }
+        if(containsNegative(str,start_index,delimiter)){
+            return(-1);
         }
         for(int i = start_index; i<n; i++){
             char ch = str.charAt(i);
