@@ -51,16 +51,48 @@ class sum{
             System.out.println("Fail");
             fail++;
         }
-        //System.out.println(sum);
-        //sum = findSum("//;\n6;8");
-        //System.out.println(sum);
+
+        sum = findSum("//#\n6#8"); //chamge delimiter
+        if(sum==14){
+            System.out.println("Pass");
+            pass++;
+        }
+        else{
+            System.out.println("Fail");
+            fail++;
+        }
         System.out.println(pass + " test case passed and "+ fail + " failed" );
 
 	 }
 
+	public static boolean isDelimiterChange(String str){
+        int n = str.length();
+        if(n<4){
+            return(false);
+        }
+        if(str.charAt(0)=='/' && str.charAt(1)=='/' && str.charAt(3)=='\n'){
+            return(true);
+        }
+        return(false);
+    }
+    public static char getDelimiter(String str){
+        if(isDelimiterChange(str)){
+            return(str.charAt(2)); // character at index2 contains the changed delimiter
+        }
+        return(',');
+    }
+
+    public static int getStartIndex(String str){
+        if(isDelimiterChange(str)){  // first 4 characters are for delimiter change request
+            return(4);
+        }
+        return(0);
+        
+    }
+
 	 public static int findSum(String str){
-        int start_index = 0;
-        char delimiter = ',';
+        int start_index = getStartIndex(str);
+        char delimiter = getDelimiter(str);
         String number = "0"; // stores individual numbers
         int sum = 0;
         int n = str.length();
